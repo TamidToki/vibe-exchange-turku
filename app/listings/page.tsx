@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { FiFilter, FiGrid, FiList } from 'react-icons/fi'
-import ListingCard from '@/components/ListingCard'
+// import ListingCard from '@/components/ListingCard' // Commented out for deployment
 
 const categories = [
   'All',
@@ -208,7 +208,26 @@ export default function ListingsPage() {
               : 'grid-cols-1'
           }`}>
             {filteredListings.map((listing: any) => (
-              <ListingCard key={listing.id} listing={listing} />
+              <div key={listing.id} className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all">
+                <div className="relative w-full h-48 bg-gray-100">
+                  {listing.images && (
+                    <img src={listing.images.split(',')[0]} alt={listing.title} className="w-full h-full object-cover" />
+                  )}
+                </div>
+                <div className="p-4">
+                  <h3 className="font-semibold text-gray-900 mb-2">{listing.title}</h3>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-2xl font-bold text-primary-600">
+                      {listing.price === 0 ? 'FREE' : `€${listing.price.toFixed(2)}`}
+                    </span>
+                    <span className="text-xs bg-gray-100 px-2 py-1 rounded">{listing.condition}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-gray-500">
+                    <span>{listing.location}</span>
+                    <span>{new Date(listing.createdAt).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         ) : (
